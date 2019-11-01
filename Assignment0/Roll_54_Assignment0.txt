@@ -1,0 +1,201 @@
+								OS-161								
+							     Assignment0
+
+Sree Sowmik Kumar Sarker
+Roll: 54
+
+
+
+
+🏠️kern/arch/mips/conf
+
+👉️Question 1: What is the vm system called that is configured for assignment 0?
+
+-> dumbvm   
+-> Source: machine mips optfile dumbvm    arch/mips/vm/dumbvm.c
+
+
+*********************************
+
+🏠️kern/arch/mips/include
+
+👉️Question 2. Which register number is used for the stack pointer (sp) in OS/161?
+
+-> $29
+
+Source: /kern/regdefs.h
+-> #define sp  $29    /* stack pointer */
+
+
+👉️Question 3. What bus/busses does OS/161 support?
+
+-> LAME bus
+-> source : /kern/arch/sys161/include/bus.h
+
+👉️Question 4. What is the difference between splhigh and spl0?
+
+-> splhigh is a set of priority level high which disables all interupts.
+-> spl0 is a set of priority level 0 which enables all interrupts.
+
+👉️Question 5. Why do we use typedefs like u_int32_t instead of simply saying "int"?
+
+-> To make sure we really get a 32 bit unsigned integer. 
+Source:-> /kern/include
+
+👉️Question 6: What must be the first thing in the process control block?
+
+-> pcb_switchstack MUST BE THE FIRST THING
+IN THE PCB or switch.S will have a coronary.
+
+
+*********************************
+
+🏠️kern/arch/mips/mips
+
+👉️Question 7. What does splx return?
+
+-> splx function returns oldspl (old interrupt level)
+Source:-> kern/thread/spl.c
+
+
+👉️Question 8. What is the highest interrupt level?
+
+-> 15
+
+
+👉️Question 9. What function is called when user-level code generates a fatal fault?
+
+-> kill_curthread
+Source:-> kern/arch/mips/locore/trap.c
+
+*********************************
+
+🏠️kern/include
+
+👉️Question 10. How frequently are hardclock interrupts generated?
+
+-> 100hz
+Source:-> kern/include/clock.h
+
+👉️Question 11. What functions comprise the standard interface to a VFS device?
+->/*
+ * Device operations.
+ *      devop_eachopen - called on each open call to allow denying the open
+ *      devop_io - for both reads and writes (the uio indicates the direction)
+ *      devop_ioctl - miscellaneous control operations
+ */
+
+Source:->kern/include/device.h
+
+👉️Question 12. How many characters are allowed in a volume name?
+
+-> 32
+Source:-> kern/include/kern/sfs.h
+
+👉️Question 13. How many direct blocks does an SFS file have?
+
+-> 15
+Source:-> kern/include/kern/sfs.h
+
+👉️Question 14. What is the standard interface to a file system (i.e., what functions must you implement to implement a new file system)?
+-> 
+#define FSOP_SYNC(fs)        ((fs)->fs_ops->fsop_sync(fs))
+#define FSOP_GETVOLNAME(fs)  ((fs)->fs_ops->fsop_getvolname(fs))
+#define FSOP_GETROOT(fs, ret) ((fs)->fs_ops->fsop_getroot(fs, ret))
+#define FSOP_UNMOUNT(fs)     ((fs)->fs_ops->fsop_unmount(fs))
+Source:->kern/include/fs.h
+
+👉️Question 15. What function puts a thread to sleep?
+
+-> wchan_sleep
+-Source:-> kern/thread/thread.c
+
+👉️Question 16. How large are OS/161 pids?
+
+-> 32 bits
+Source:-> kern/include/kern/types.h
+
+👉️Question 17. What operations can you do on a vnode?
+
+->
+open, close, reclaim, read, readlink, getdirentry,
+write, ioctl, stat, gettype, tryseek, fsync, mmap,
+truncate, namefile, creat, symlink, mkdir, link,
+remove, rmdir, rename, lookup, lookparent
+Source:->kern/include/vnode.h
+
+👉️Question 18. What is the maximum path length in OS/161?
+
+-> #define __PATH_MAX      1024
+Source:-> kern/include/kern/limits.h
+
+👉️Question 19. What is the system call number for a reboot?
+
+-> #define SYS_reboot       119
+Source:-> kern/include/kern/syscall.h
+
+👉️Question 20. Where is STDIN_FILENO defined?
+
+-> #define STDIN_FILENO  0
+Source:-> unistd.h
+
+*********************************
+
+🏠️kern/main
+
+👉️Question 21. What does kmain() do?
+-> 
+ Kernel main. Boot up, then fork the menu thread; wait for a reboot
+ request, and then shut down.
+Source:-> kern/main/main.c
+
+*********************************
+
+🏠️kern/thread
+
+👉️Question 22. Is it OK to initialize the thread system before the scheduler? Why (not)?
+
+-> 
+Yes. The scheduler bootstrap just creates the run queue, and
+the thread bootstrap just initializes the first thread.
+->
+
+👉️Question 23. What is a zombie?
+
+-> Zombies are threads that have exited but still
+ need to have thread_destroy called on them.
+Source:-> kern/thread/thread.c
+
+👉️Question 24. How large is the initial run queue?
+
+-> 32
+
+
+*********************************
+
+🏠️kern/fs/vfs
+
+👉️Question 25. What does a device name in OS/161 look like?
+
+-> The name of a device is always just "device:"
+Source:-> kern/vfc/device.c/dev_namefile
+
+
+👉️Question 26. What does a raw device name in OS/161 look like?
+
+-> Name of raw device (eg, "lhd0raw").
+-> kern/vfs/vfslist.c
+
+👉️Question 27. What lock protects the vnode reference count?
+
+-> vn_countlock
+Source:-> kern/include/vnode.h
+
+👉️Question 28. What device types are currently supported?
+
+-> Supported devices are- 1. Block Device, 2.Character Device
+   A device is a "block device" if it has a known
+   length. A device that generates data in a stream is a "character
+   device".
+Source:-> kern/vfs/device.c
+

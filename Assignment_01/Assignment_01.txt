@@ -1,0 +1,205 @@
+					Assignment 1: Practice Thread and Synchronisation
+
+
+Roll: 54
+
+Thread Questions:
+
+1. What happens to a thread when it exits (i.e., calls thread_exit() )? What about when it sleeps?
+
+   thread_exit() - thread.c
+
+=> Decrease the reference pointer to the current working directory that the thread is on.
+=> Destroy the address space of the thread.
+=> Virtual file system for the thread is cleard(VFS).
+=> Set priority level hight - disables all interrupts. (splhigh())
+=> Mark the thread as a zombie and processor picks up another thread.
+ 
+   wchan_sleep(struct wchan *wc) -thread.c
+
+=> Thread is switched to sleep mode and processor picks up another thread.
+=> Yield the cpu to another process, and go to sleep, on the specified wait channel WC.
+
+
+2. What function(s) handle(s) a context switch?
+
+=> thread_switch() -thread.c
+
+3. How many thread states are there? What are they?
+
+   thread.h
+
+=> S_RUN - running
+=> S_READY - ready to run
+=> S_SLEEP - sleeping
+=> S_ZOMBIE - zombie; exited but not yet deleted
+
+
+4. What does it mean to turn interrupts off? How is this accomplished? Why is it important to turn off
+   interrupts in the thread subsystem code?
+
+=> Current working thread will not be interrupted until interrupts are re-enabled, meaning the code section between disabling
+   and re-enabling interrupts will be executed as if atomically.
+=> Calling cpu_irqoff (cpu.c) sets interrupt enable mode bit.
+=> Calling splx disables or enables interrupts and adjust the current set priority levels and returns old spl level. Refer to spl.h, for       	  example, spl = splhigh() sets IPL to the highest value, and disables all interrupts.
+
+
+
+5. What happens when a thread wakes up another thread? How does a sleeping thread get to run again?
+
+=> Call to wchan_wakeone (thread.c) wakes up one thread by putting it in CPU's renqueue. When thread_switch happens, the woken up thread may   	  run again.
+=> Calling thread_make_runnable (thread.c) will make a thread runnable again.
+
+
+Scheduler Questions:
+
+
+6. What function is responsible for choosing the next thread to run?
+
+=> thread_switch() swaps in the next thread on the CPU's run queue.
+=> schedule() reshuffles the threads around on the run queue.
+=> thread_consider_migration() migrates threads across CPU's run queues in case on imbalance
+
+7. How does that function pick the next thread?
+
+=> thread_switch() simply picks the next thread on the run queue. But we are responsible for implementing schedule()
+
+
+8. What role does the hardware timer play in scheduling? What hardware independent function is called on a
+   timer interrupt?
+
+=> hardclock() calls both schedule() and thread_consider_migration() periodically.
+
+
+Synchronisation Questions:
+
+9. Describe how thread_sleep() and thread_wakeup() are used to implement semaphores. What is the
+   purpose of the argument passed to thread_sleep() ?
+
+=> TO synchronixe sleeping and waiting calls so that no thread will sleep forever.
+=> The argument that is passed in is the address of the object (in this case, semaphore) the sleeping thread is associated with.
+   This is required so that when thread_wakeup is called on the same semaphore, it can selectively wake up only the threads
+   associated with that particular semaphore.
+
+
+10. Why does the lock API in OS/161 provide lock_do_i_hold() , but not lock_get_holder() ?
+
+
+=> Because locks have to be released by the same thread that acquires them ( and thereby prevent malicious actions).
+
+
+
+
+
+Identify Deadlocks:
+
+11. Here are code samples for two threads that use binary semaphores. Give a sequence of execution and
+context switches in which these two threads can deadlock.
+
+
+
+12. Propose a change to one or both of them that makes deadlock impossible. What general principle do the
+original threads violate that causes them to deadlock?
+
+
+semaphore *mutex, *data;
+void me() {
+P(mutex);
+/* do something */
+P(data);
+/* do something else */
+V(mutex);
+/* clean up */
+V(data);
+}
+void you() {
+P(data)
+P(mutex);
+/* do something */
+V(data);
+V(mutex);
+}
+
+
+More Deadlock Identification:
+
+13. Here are two more threads. Can they deadlock? If so, give a concurrent execution in which they do and
+propose a change to one or both that makes them deadlock free.
+
+
+
+
+
+Synchronised Queues:
+
+14. The thread subsystem in OS/161 uses a queue structure to manage some of its state. This queue structure
+is not synchronised. Why not? Under what circumstances should you use a synchronised queue structure?
+Describe (and give pseudocode for) a synchronised queue data structure based on the queue structure
+included in the OS/161 codebase. You may use semaphores, locks, and condition variables as you see fit. You
+must describe (a proof is not necessary) why your algorithm will not deadlock.
+Make sure you clearly state your assumptions about the constraints on access to such a structure and how
+you ensure that these constraints are respected.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
