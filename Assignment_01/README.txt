@@ -1,3 +1,14 @@
+sowmik@sowmik-HP-Pavilion-Notebook:~/OS_Lab/Assignment_01$ ./toCompile.sh 
+Configuration ASST1
+Generating files... opt-dumbvm.h opt-hangman.h opt-net.h opt-netfs.h opt-noasserts.h opt-semfs.h opt-sfs.h opt-synchprobs.h files.mk Makefile autoconf.h autoconf.c
+Configuration in ../compile/ASST1 done
+Remember to make depend
+bmake includelinks
+`includelinks' is up to date.
+rm -f .depend.* || true
+bmake realdepend
+..............................................................................................
+
 sowmik@sowmik-HP-Pavilion-Notebook:~/OS_Lab/Assignment_01$ ./toRun.sh 
 sys161: System/161 release 2.0.8, compiled Jul 17 2019 12:26:33
 
