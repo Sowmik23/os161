@@ -45,4 +45,13 @@ Customer Spending ...
 Verification ....
 The InvestorProducer is closed, bye!!!
 Operation took 2.926225120 seconds
-OS/161 kernel [? for menu]: 
+OS/161 kernel [? for menu]:  q
+Shutting down.
+The system is halted.
+sys161: 4877594909 cycles (114225829 run, 4763369080 global-idle)
+sys161:   cpu0: 30090877 kern, 0 user, 0 idle; 34176 ll, 34176/0 sc, 153684 sync
+sys161: 2033 irqs 0 exns 0r/0w disk 5r/1757w console 0r/0w/1m emufs 0r/0w net
+sys161: Elapsed real time: 188.057291 seconds (25.9367 mhz)
+sys161: Elapsed virtual time: 191.742691343 seconds (25 mhz)
+sowmik@sowmik-HP-Pavilion-Notebook:~/OS_Lab/Assignment_01$ 
+
