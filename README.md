@@ -8,11 +8,11 @@ OS/161 base system version 2.0.3
 Copyright (c) 2000, 2001-2005, 2008-2011, 2013, 2014
    President and Fellows of Harvard College.  All rights reserved.
 
-Put-your-group-name-here's system version 0 (ASST2 #1)
+Put-your-group-name-here's system version 0 (ASST2 #1) \n
 
-3940k physical memory available
-Device probe...
-lamebus0 (system main bus)
+3940k physical memory available \n
+Device probe... \n
+lamebus0 (system main bus) \n
 emu0 at lamebus0
 ltrace0 at lamebus0
 ltimer0 at lamebus0
