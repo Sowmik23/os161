@@ -1,0 +1,36 @@
+************************************************
+OS161 FIFO and Preemptive Priority Scheduler
+Submitted by:
+Md.Ahasanul Alam(10)
+Mustafizur Rahman(22)
+Sree Sowmik Kumar Sarker(54)
+************************************************
+
+*First compile using the following command
+
+	$ ./toCompile
+
+*Then run OS161 using 
+	$ ./toRun
+
+*put 'p1' to run the Scheduler algorithm. 
+
+
+
+**Note: You may need to change permission to run .sh file.to do so run
+
+	$ chmod -R 777 toCompile.sh
+	$ chmod -R 777 toRun.sh
+
+**************************************************
+
+********* To Run FIFO  *********
+to run FIFO go to /src/kern/include/thread.h
+here in line #56 set SCHEDULE 1 
+recompile it & run OS161
+
+
+********* To Run FIFO  *********
+to run FIFO go to /src/kern/include/thread.h
+here in line #56 set SCHEDULE 2 
+recompile it & run OS161
